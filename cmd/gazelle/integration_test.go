@@ -3282,9 +3282,9 @@ import "a/a.proto";
 		{
 			Path: "a/BUILD.bazel",
 			Content: `
-load("//:my.bzl", "my_go_library")
 load("@com_google_protobuf//bazel:proto_library.bzl", "proto_library")
 load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+load("//:my.bzl", "my_go_library")
 
 proto_library(
     name = "a_proto",
@@ -3310,9 +3310,9 @@ my_go_library(
 		{
 			Path: "b/BUILD.bazel",
 			Content: `
-load("//:my.bzl", "my_go_library")
 load("@com_google_protobuf//bazel:proto_library.bzl", "proto_library")
 load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+load("//:my.bzl", "my_go_library")
 
 proto_library(
     name = "b_proto",
@@ -3721,9 +3721,10 @@ proto_library(
 			Path: "proto/BUILD.bazel",
 			Content: `
 load("@com_google_protobuf//bazel:proto_library.bzl", "proto_library")
+# gazelle:prefix example.com/foo
+
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
-# gazelle:prefix example.com/foo
 
 proto_library(
     name = "existing_proto",
@@ -4263,8 +4264,8 @@ go_rules_dependencies()
 
 go_register_toolchains()
 
-load("//:deps.bzl", "deps")
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("//:deps.bzl", "deps")
 
 # gazelle:repository_macro deps.bzl%deps
 deps()
@@ -4433,9 +4434,9 @@ http_archive(
     ],
 )
 
-load("//:deps.bzl", "deps")
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+load("//:deps.bzl", "deps")
 
 # gazelle:repository_macro deps.bzl%deps
 deps()
