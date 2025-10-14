@@ -3692,10 +3692,15 @@ func TestMatchProtoLibrary(t *testing.T) {
 			Path: "WORKSPACE",
 		},
 		{
+			Path: "BUILD.bazel",
+			Content: `
+# gazelle:prefix example.com/foo
+`,
+		},
+		{
 			Path: "proto/BUILD.bazel",
 			Content: `
 load("@com_google_protobuf//bazel:proto_library.bzl", "proto_library")
-# gazelle:prefix example.com/foo
 
 proto_library(
 	name = "existing_proto",
@@ -3721,8 +3726,6 @@ proto_library(
 			Path: "proto/BUILD.bazel",
 			Content: `
 load("@com_google_protobuf//bazel:proto_library.bzl", "proto_library")
-# gazelle:prefix example.com/foo
-
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
 
@@ -3734,15 +3737,15 @@ proto_library(
 
 go_proto_library(
     name = "existing_go_proto",
-    importpath = "example.com/foo",
+    importpath = "example.com/foo/proto",
     proto = ":existing_proto",
     visibility = ["//visibility:public"],
 )
 
 go_library(
-    name = "foo",
+    name = "proto",
     embed = [":existing_go_proto"],
-    importpath = "example.com/foo",
+    importpath = "example.com/foo/proto",
     visibility = ["//visibility:public"],
 )`,
 		},
